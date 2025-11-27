@@ -278,10 +278,101 @@ let ulCh27=document.getElementById('ch27');
 let select=document.getElementById('select');
 ulCh27.innerHTML=workers.map(worker=>{return `<li>${worker.name}-${worker.role}</li>`}).join('');
 select.addEventListener('change',(e)=>{
-    console.log(e.target.value);
+    console.log(e.target.value); 
     let empFiltred=workers.filter(worker=>worker.role===e.target.value);
-      ulCh27.innerHTML=empFiltred.map(worker=>{return `<li>${worker.name}-${worker.role}</li>`}).join('');
+    if(e.target.value=="ALL roles"){
+         ulCh27.innerHTML=workers.map(worker=>{return `<li>${worker.name}-${worker.role}</li>`}).join('');
+        return
+    }else{
+        ulCh27.innerHTML=empFiltred.map(worker=>{return `<li>${worker.name}-${worker.role}</li>`}).join('');
+    }   
 })
+
+
+// ch28
+let ulCh28=document.getElementById('ch28');
+let tableBody=document.getElementById('tableBody');
+tableBody.innerHTML=workers.map(worker=>{
+    return `
+        <tr>
+            <td>${worker.id}</td>
+            <td>${worker.name}</td>
+            <td>${worker.role}</td>
+            <td>${worker.city}</td>
+            <td>${worker.salary}</td>
+        </tr>
+    `
+}).join('');
+
+// ch29
+let ulCh29=document.getElementById('ch28');
+let tableBody29=document.getElementById('tableBody29');
+let nameColumns=document.getElementById('nameHeader');
+let salaryColumns=document.getElementById('salaryHeader');
+tableBody29.innerHTML=workers.map(worker=>{
+    return `
+        <tr>
+            <td>${worker.name}</td>
+            <td>${worker.role}</td>
+            <td>${worker.salary}</td>
+        </tr>
+    `
+}).join('');
+salaryColumns.addEventListener('click',(e)=>{
+    let sortedBySalary=workers.sort((a,b)=>{
+        return a.salary - b.salary;
+    })
+    showSortedTable(sortedBySalary);
+})
+nameColumns.addEventListener('click',()=>{
+    let sortedByName=workers.sort((a,b)=>{
+        return a.name.localeCompare(b.name);
+    })
+    showSortedTable(sortedByName)
+})
+function showSortedTable(workersSorted){
+      tableBody29.innerHTML=workersSorted.map(worker=>{
+    return `
+        <tr>
+            <td>${worker.name}</td>
+            <td>${worker.role}</td>
+            <td>${worker.salary}</td>
+        </tr>
+    `
+}).join('');  
+}
+
+
+// ch30
+let divCh30=document.getElementById('divCh30');
+let newWorkers=[  { id: 6, name: 'Mohamed Moawya', role: 'Manager', city: 'Paris', salary: 60000, active: true, hireDate: '2023-01-15' }
+,{ id: 7, name: 'Med Moawya', role: 'Manager', city: 'Paris', salary: 60000, active: true, hireDate: '2023-01-15' },
+];
+let AllWorkers=workers.concat(newWorkers);
+let original=workers.length;
+let newArray=newWorkers.length;
+divCh30.innerHTML =`
+    <h1>Result : </h1>
+    <p>original : ${original} employees</p>
+    <p>New hires : ${newArray} employees</p>
+    <p>Concatenated : ${original+newArray} employees</p>
+    ${AllWorkers.map(worker=>
+        `<p>${worker.name}</p>`
+    ).join('')}
+` 
+//ch31
+localStorage.setItem('workers',JSON.stringify(workers));
+
+//ch32
+let divCh32=document.getElementById('divCh32');
+let btnCh32=document.getElementById('btnCh32');
+let workerss=JSON.parse(localStorage.getItem('workers'));
+btnCh32.addEventListener('click',()=>{
+    divCh32.innerHTML=workerss.map(worker=>
+        `<p>${worker.name}</p>`
+    ).join('')
+})
+console.log(workerss);
 
   
 
